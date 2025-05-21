@@ -1,0 +1,10 @@
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_name: "null_monitoring_new"
+data:
+  raw_data_path: "C:/Users/kau75421/LLMprojects/CreditFraudDetection/data/raw/Bank_Transaction_Fraud_Detection.csv"
+  processed_data_path: "C:/Users/kau75421/LLMprojects/CreditFraudDetection/data/processed/Bank_Transaction_Fraud_Detection_Processed.csv"
+  logs_dir: "bank_model_project/data/logs"
+  models_dir: "bank_model_project/data/models"
+  artifacts_dir: "bank_model_project/data/artifacts"
+
