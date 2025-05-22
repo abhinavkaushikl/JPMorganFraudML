@@ -1,1 +1,0 @@
-# MLflow model registry handler

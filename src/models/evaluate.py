@@ -12,6 +12,7 @@ from sklearn.metrics import (
     accuracy_score, f1_score, precision_score, recall_score, 
     classification_report, confusion_matrix, roc_auc_score, roc_curve
 )
+from sklearn.ensemble import RandomForestClassifier
 
 class ModelEvaluator:
     def __init__(self, output_dir="evaluation_results", mlflow_experiment=None):
@@ -68,6 +69,12 @@ class ModelEvaluator:
                 self._save_feature_importance(model, X_test, model_name)
                 mlflow.log_artifact(f"{self.output_dir}/{model_name}_feature_importance.csv")
                 mlflow.log_artifact(f"{self.output_dir}/{model_name}_feature_importance.png")
+                
+                # Additional Random Forest specific feature importance
+                if isinstance(model, RandomForestClassifier):
+                    self._save_random_forest_feature_importance(model, X_test, model_name)
+                    mlflow.log_artifact(f"{self.output_dir}/{model_name}_rf_feature_importance.png")
+                    mlflow.log_artifact(f"{self.output_dir}/{model_name}_rf_feature_importance_detailed.csv")
 
             # Save summary CSV
             summary_path = f"{self.output_dir}/{model_name}_metrics_summary.csv"
@@ -138,4 +145,41 @@ class ModelEvaluator:
         fi_df.head(20).plot(kind='bar', x='Feature', y='Importance', title='Top 20 Feature Importances')
         plt.tight_layout()
         plt.savefig(f"{self.output_dir}/{model_name}_feature_importance.png")
+        plt.close()
+        
+    def _save_random_forest_feature_importance(self, model, X, model_name):
+        """
+        Create more detailed feature importance visualizations for Random Forest models.
+        This includes standard deviation of feature importances across trees.
+        """
+        # Get feature importances and their standard deviations
+        importances = model.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in model.estimators_], axis=0)
+        
+        # Create DataFrame with feature importances and standard deviations
+        feature_names = X.columns
+        forest_importances = pd.DataFrame({
+            'Feature': feature_names,
+            'Importance': importances,
+            'Std_Deviation': std
+        }).sort_values(by="Importance", ascending=False)
+        
+        # Save detailed CSV
+        forest_importances.to_csv(f"{self.output_dir}/{model_name}_rf_feature_importance_detailed.csv", index=False)
+        
+        # Plot feature importances with error bars (standard deviation)
+        fig, ax = plt.figure(figsize=(12, 8)), plt.axes()
+        top_features = forest_importances.head(20)
+        y_pos = np.arange(len(top_features))
+        
+        ax.barh(y_pos, top_features['Importance'], xerr=top_features['Std_Deviation'], 
+                align='center', alpha=0.8, capsize=5)
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(top_features['Feature'])
+        ax.invert_yaxis()  # Labels read top-to-bottom
+        ax.set_xlabel('Feature Importance')
+        ax.set_title(f'Random Forest Feature Importance with Standard Deviation - {model_name}')
+        
+        plt.tight_layout()
+        plt.savefig(f"{self.output_dir}/{model_name}_rf_feature_importance.png", dpi=300)
         plt.close()

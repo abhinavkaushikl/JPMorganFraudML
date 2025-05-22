@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/225426192503229072/2886d213d7374a409ad40b4ed917bd63/artifacts
+end_time: 1747879138104
+entry_point_name: ''
+experiment_id: '225426192503229072'
+lifecycle_stage: active
+run_id: 2886d213d7374a409ad40b4ed917bd63
+run_name: LightGBM
+run_uuid: 2886d213d7374a409ad40b4ed917bd63
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747879120954
+status: 3
+tags: []
+user_id: kau75421

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/225426192503229072/1e56fb562c254c5aba9b53bd652b0c15/artifacts
+end_time: 1747878848396
+entry_point_name: ''
+experiment_id: '225426192503229072'
+lifecycle_stage: active
+run_id: 1e56fb562c254c5aba9b53bd652b0c15
+run_name: imbalance_monitoring
+run_uuid: 1e56fb562c254c5aba9b53bd652b0c15
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747878848146
+status: 3
+tags: []
+user_id: kau75421
