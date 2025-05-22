@@ -52,21 +52,3 @@ def load_data(path, target_col):
         df.drop(columns='Bank_Branch', inplace=True)
     return df.drop(columns=[target_col]), df[target_col]
 
-
-# -------------------------
-# 🚀 Training Script
-# -------------------------
-if __name__ == "__main__":
-    data_path = "C:/Users/kau75421/LLMprojects/CreditFraudDetection/data/processed/Bank_Transaction_Fraud_Detection_Processed.csv"
-    target_col = "Is_Fraud"
-    model_type = "rf"  # Choose "rf" or "lgbm"
-    model_save_path = "models/randomforestor.pkl"
-
-    X, y = load_data(data_path, target_col)
-
-    trainer = ModelTrainer(X, y, model_type)
-    model = trainer.train()
-
-    save_model(model, model_save_path)
-
-    print("Training complete. No validation was performed.")
