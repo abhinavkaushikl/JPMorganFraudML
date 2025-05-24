@@ -4,7 +4,7 @@ import sys
 def install_mlflow():
     print("Installing langchain...")
     try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "accelerate"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "streamlit"])
         print("MLflow installed successfully!")
     except subprocess.CalledProcessError as e:
         print(f"Error installing langchain: {e}")
